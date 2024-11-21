@@ -17,7 +17,7 @@ Foi desenvolvido um catálogo de livros que permite aos usuários interagir via 
 - **MySQL** 🗄️
 - **IntelliJ IDEA** 💻
 - **Maven** 🔧
-- **Git** 🧑‍💻
+- **Git** 💻
 - **Gutendex API** 🌍
 - **Jackson** 📊
 
@@ -45,6 +45,6 @@ Foi desenvolvido um catálogo de livros que permite aos usuários interagir via 
 
 4. Execute a classe **LivrariaApplication** como uma aplicação **Spring Boot**.
 
-### **🧑‍💻 Feito por**:  
+### **Feito por**:  
 **Edivone Araújo**  
 [LinkedIn](www.linkedin.com/in/edivone-araujo)
