@@ -27,10 +27,6 @@ Foi desenvolvido um catálogo de livros que permite aos usuários interagir via 
 - **Listar livros por idioma**: Filtra e exibe livros por idioma específico.
 - **Listar todos os autores**: Exibe todos os autores cadastrados.
 - **Listar autores vivos em determinado ano**: Filtra e lista autores vivos em um ano específico.
-- **Exibir quantidade de livros por idioma**: Mostra o número de livros disponíveis em um idioma específico.
-- **Exibir estatísticas de downloads dos livros**: Apresenta estatísticas como total, média, mínimo e máximo de downloads.
-- **Exibir estatísticas de anos de nascimento dos autores**: Mostra estatísticas dos anos de nascimento dos autores cadastrados.
-- **Exibir top 10 livros mais baixados**: Lista os 10 livros com maior número de downloads.
 - **Buscar autor por nome**: Permite buscar autores pelo nome.
 
 ### **🚀 Como Executar**:
