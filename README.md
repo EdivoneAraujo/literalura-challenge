@@ -32,7 +32,7 @@ Foi desenvolvido um catálogo de livros que permite aos usuários interagir via 
 ### **🚀 Como Executar**:
 1. Clone o repositório:
    ```bash
-   git clone https://github.com/seu-usuario/literalura.git
+   git clone https://github.com/EdivoneAraujo/literalura.git
    ```
 
 2. Importe o projeto na sua IDE preferida (recomendado **IntelliJ IDEA**).
