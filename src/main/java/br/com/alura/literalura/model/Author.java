@@ -42,11 +42,11 @@ public class Author {
     public String toString() {
         String booksStr = books.stream().map(Book::getTitle).collect(Collectors.joining(", "));
 
-        return "Author{" +
-                "name='" + name + '\'' +
-                ", birthYear=" + birthYear +
-                ", deathYear=" + deathYear +
-                ", books=" + booksStr +
+        return "Autor{" +
+                "Título='" + name + '\'' +
+                ", Ano de nascimento=" + birthYear +
+                ", Ano de morte=" + deathYear +
+                ", Livros=" + booksStr +
                 '}';
     }
 

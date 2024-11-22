@@ -1,76 +1,69 @@
 package br.com.alura.literalura.util;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.ResultSet;
-import java.sql.Statement;
 
 @Component
 public class ConnectionUtil {
-    public Connection connect_to_db(String dbname, String user, String pass) {
-        Connection conn = null;
-        try {
-            Class.forName("org.postgresql.Driver");
-            conn = DriverManager.getConnection("jdbc:postgresql://localhost:5432/" + dbname, user, pass);
-            if (conn != null) {
-                System.out.println("Connection Established");
-            } else {
-                System.out.println("Connection Failed");
-            }
-        } catch (Exception e) {
-            System.out.println(e);
-        }
-        return conn;
-    }
 
-    public void createTable(Connection conn, String recovery) {
-        try (Statement statement = conn.createStatement()) {
-            String query = "CREATE TABLE " + recovery + " (" +
+    @Autowired
+    private JdbcTemplate jdbcTemplate; // Usaremos JdbcTemplate para facilitar a interação com o banco de dados
+
+    // Método para criar a tabela 'recovery' caso ela não exista
+    public void createTable() {
+        try {
+            String sql = "CREATE TABLE IF NOT EXISTS recovery (" +
                     "id SERIAL PRIMARY KEY NOT NULL, " +
                     "balance NUMERIC(10, 2) DEFAULT 0, " +
                     "social_security INT4 NOT NULL UNIQUE);";
-            statement.executeUpdate(query);
-            System.out.println("Table created: " + recovery);
-        } catch (Exception e) {
+            jdbcTemplate.execute(sql); // Usando JdbcTemplate para executar o SQL
+            System.out.println("Table 'recovery' created or already exists.");
+        } catch (DataAccessException e) {
             System.out.println("Error creating table: " + e.getMessage());
         }
     }
 
-    public void insert_row(Connection conn, int socials, double transfer) {
-        try (Statement statement = conn.createStatement()) {
-            String query = "INSERT INTO recovery(balance, social_security) VALUES (" + transfer + "," + socials + ");";
-            statement.executeUpdate(query);
-            System.out.println("Row inserted");
-        } catch (Exception e) {
+    // Método para inserir uma linha na tabela 'recovery'
+    public void insertRow(int socialSecurity, double balance) {
+        try {
+            String sql = "INSERT INTO recovery(balance, social_security) VALUES (?, ?)";
+            jdbcTemplate.update(sql, balance, socialSecurity); // Usando JdbcTemplate para inserir os dados
+            System.out.println("Row inserted into 'recovery' table.");
+        } catch (DataAccessException e) {
             System.out.println("Error inserting row: " + e.getMessage());
         }
     }
 
-    public void balance(Connection conn, String recovery) {
-        try (Statement statement = conn.createStatement();
-             ResultSet result = statement.executeQuery("SELECT * FROM " + recovery + ";")) {
-            while (result.next()) {
-                int id = result.getInt("id");
-                String privatebalances = result.getString("balance");
-                String socialsecurity = result.getString("social_security");
-
-                System.out.printf("%d - Balance: %s - SS: %s%n", id, privatebalances, socialsecurity);
-            }
-        } catch (Exception e) {
+    // Método para exibir os saldos presentes na tabela 'recovery'
+    public void displayBalance() {
+        try {
+            String sql = "SELECT * FROM recovery";
+            jdbcTemplate.query(sql, (ResultSet rs) -> {
+                while (rs.next()) {
+                    int id = rs.getInt("id");
+                    double balance = rs.getDouble("balance");
+                    int socialSecurity = rs.getInt("social_security");
+                    System.out.printf("%d - Balance: %.2f - SS: %d%n", id, balance, socialSecurity);
+                }
+            });
+        } catch (DataAccessException e) {
             System.out.println("Error fetching balance: " + e.getMessage());
         }
     }
 
-    public void delete(Connection conn, int idm) {
-        try (Statement statement = conn.createStatement()) {
-            String query = "DELETE FROM recovery WHERE id=" + idm + ";";
-            statement.executeUpdate(query);
-            System.out.println("Account with ID " + idm + " deleted.");
-        } catch (Exception e) {
+    // Método para excluir uma linha da tabela 'recovery' com base no ID
+    public void deleteRow(int id) {
+        try {
+            String sql = "DELETE FROM recovery WHERE id = ?";
+            jdbcTemplate.update(sql, id); // Usando JdbcTemplate para excluir o dado
+            System.out.println("Row with ID " + id + " deleted from 'recovery' table.");
+        } catch (DataAccessException e) {
             System.out.println("Error deleting row: " + e.getMessage());
         }
     }
-}
 
+}

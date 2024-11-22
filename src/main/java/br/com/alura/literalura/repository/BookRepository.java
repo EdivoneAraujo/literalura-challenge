@@ -10,6 +10,9 @@ import java.util.List;
 
 @Repository
 public interface BookRepository extends JpaRepository<Book, Long> {
+
+    List<Book> findByLanguage(String language);
+
     @Query("SELECT DISTINCT a FROM Book b JOIN b.authors a WHERE YEAR(a.birthYear) <= :year")
     List<Author> findByAuthorsBirthYearLessThanEqual(int year);
 
@@ -18,4 +21,5 @@ public interface BookRepository extends JpaRepository<Book, Long> {
 
     @Query("SELECT a FROM Book b JOIN b.authors a WHERE lower(a.name) LIKE lower(concat('%', :name, '%'))")
     List<Author> findByAuthorsName(String name);
+
 }
